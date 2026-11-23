@@ -8,6 +8,18 @@ public import Legendre.Defs
 # The period integral
 
 Interface theorem (signature fixed): `period_integral`.
+
+For `‖z‖ < 1`, `F z = (1/π) ∫₀¹ dx / (√(x(1-x)) (1 - z x)^{1/2})`.
+
+Route: expand `1/(1 - z x)^{1/2}` with the binomial series
+(`one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`, coefficient `C(2n,n)/4ⁿ`), integrate term
+by term (dominated by `‖z‖ⁿ / √(x(1-x))`), and evaluate the moments as Beta integrals
+`B(n + 1/2, 1/2) = π C(2n,n)/4ⁿ`.
+
+Exposed auxiliary results:
+* `F_eq_tsum_period` : `F z = ∑' n, coeff n * z ^ n`;
+* `intervalIntegrable_period_integrand` : integrability of the integrand on `[0,1]`;
+* `hasSum_period_integrand`, `betaIntegral_nat_add_half`, `halfCoeff` and friends.
 -/
 
 open Complex MeasureTheory Set Filter
