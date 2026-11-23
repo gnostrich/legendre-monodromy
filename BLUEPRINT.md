@@ -121,5 +121,10 @@ matching `y'`). By §4, `u = αF + βL` on `U`. Determine `α, β` from the asym
   ∫₀^{π/2} (1-sinθ)/cosθ dθ = log 2` by dominated convergence (integrand `≤ 2`:
   `(1-k)/k' ≤ 1` and `k(1-sinθ)/(k cosθ) ≤ 1`). So `K = log(4/k') + o(1) = 2 log 2 - (1/2)log x + o(1)`
   and `π F(1-x) = 4 log 2 - log x + o(1)`.
+  *As formalized* (`Legendre/ConnectionAsymptotic.lean`), the same limit is reached without
+  trigonometry: `t = 1 - s²` gives `π F(1-x) = J x = 2∫₀¹ ds/(√(1-s²)√(x+(1-x)s²))`; splitting
+  `1/√(1-s²) = k + (1/√(1-s²) - k)` with `k = √(1-x)`, the first piece integrates exactly to
+  `log(k+1) - (log x)/2` (antiderivative `log(ks + √(x+k²s²))`), and the remainder tends to
+  `∫₀¹ s/(√(1-s²)(1+√(1-s²))) ds = log 2` by dominated convergence (bound `1/√(1-s²) + 1`).
 - Comparing: `β log x + α - (4 log 2 - log x)/π → 0` forces `β = -1/π` (else unbounded), then
   `α = 4 log 2/π`.

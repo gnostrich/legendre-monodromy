@@ -12,8 +12,7 @@ relaxedAutoImplicit = false
 
 [[lean_lib]]
 name = "Legendre"
-roots = ["Legendre"]
-globs = ["Legendre.+"]
+globs = ["Legendre", "Legendre.+"]
 
 [[lean_lib]]
 name = "Challenge"
