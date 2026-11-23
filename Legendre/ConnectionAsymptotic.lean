@@ -114,7 +114,6 @@ theorem integral_main {x : ℝ} (hx0 : 0 < x) (hx1 : x < 1) :
     have hq := Real.sqrt_pos.2 (hQ s)
     have hqq := Real.sq_sqrt (hQ s).le
     have hp := hpos s hs.1
-    simp only [id]
     field_simp
     rw [← hkk]
     ring
