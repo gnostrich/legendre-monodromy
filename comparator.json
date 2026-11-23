@@ -1,0 +1,19 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "LegendreChallenge.F_solves_picardFuchs",
+    "LegendreChallenge.F_eq_period_integral",
+    "LegendreChallenge.wronskian_F_L",
+    "LegendreChallenge.solution_space",
+    "LegendreChallenge.F_L_linearIndependent",
+    "LegendreChallenge.monodromy_at_zero",
+    "LegendreChallenge.connection_formula"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}
