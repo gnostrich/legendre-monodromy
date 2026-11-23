@@ -214,7 +214,7 @@ theorem ode_S {c : ℕ → ℂ} (h : PolyBdd c) {z : ℂ} (hz : ‖z‖ < 1) :
   have A := HasSum.mul_z B
   have C := HasSum.mul_z H1
   have tot := ((((B.add H1).sub A).sub (C.mul_left 2)).sub (H0.div_const 4))
-  have tot' : HasSum (fun n => (((n : ℂ) + 1) ^ 2 * c (n + 1) - ((n : ℂ) + 1 / 2) ^ 2 * c n) *
+  have tot' : HasSum (fun n : ℕ => (((n : ℂ) + 1) ^ 2 * c (n + 1) - ((n : ℂ) + 1 / 2) ^ 2 * c n) *
       z ^ n) (z * (1 - z) * S (dc (dc c)) z + (1 - 2 * z) * S (dc c) z - S c z / 4) := by
     convert tot using 1
     · funext n
@@ -237,7 +237,7 @@ theorem S_sub_S_dc {c : ℕ → ℂ} (h : PolyBdd c) {z : ℂ} (hz : ‖z‖ < 1
   have H1 := hasSum_S h.dc hz
   have C := HasSum.mul_z H1
   have tot := (H0.sub (H1.mul_left 2)).add (C.mul_left 2)
-  have tot' : HasSum (fun n => ((2 * (n : ℂ) + 1) * c n - 2 * ((n : ℂ) + 1) * c (n + 1)) *
+  have tot' : HasSum (fun n : ℕ => ((2 * (n : ℂ) + 1) * c n - 2 * ((n : ℂ) + 1) * c (n + 1)) *
       z ^ n) (S c z - 2 * (1 - z) * S (dc c) z) := by
     convert tot using 1
     · funext n
