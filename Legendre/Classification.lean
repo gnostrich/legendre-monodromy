@@ -21,8 +21,6 @@ open Complex Filter Topology
 
 namespace Legendre
 
-lemma ne_zero_of_mem_D {z : ℂ} (hz : z ∈ D) : z ≠ 0 := slitPlane_ne_zero hz.2
-
 lemma ne_one_of_mem_D {z : ℂ} (hz : z ∈ D) : z ≠ 1 := by
   rintro rfl
   have := hz.1

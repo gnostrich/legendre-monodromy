@@ -224,7 +224,6 @@ theorem ode_S {c : ℕ → ℂ} (h : PolyBdd c) {z : ℂ} (hz : ‖z‖ < 1) :
       · simp [PS.dc]
         ring
       · simp [PS.dc]
-        push_cast
         ring
     · ring
   exact tot'.tsum_eq.symm
@@ -244,7 +243,6 @@ theorem S_sub_S_dc {c : ℕ → ℂ} (h : PolyBdd c) {z : ℂ} (hz : ‖z‖ < 1
       rcases n with _ | n
       · simp [PS.dc]
       · simp [PS.dc]
-        push_cast
         ring
     · ring
   exact tot'.tsum_eq.symm
