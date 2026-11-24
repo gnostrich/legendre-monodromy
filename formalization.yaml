@@ -1,0 +1,304 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4. Comparator configuration: comparator.json.
+version: "v0.4"
+
+project:
+  name: "The Legendre family: Picard–Fuchs equation, period integral, solution space, local monodromy and connection formula for 2F1(1/2,1/2;1;λ)"
+  description: >-
+    The Legendre family of elliptic curves y^2 = x(x-1)(x-λ) has the period
+    function F(λ) = 2F1(1/2, 1/2; 1; λ), taken here as Mathlib's
+    ordinaryHypergeometric. Its Picard–Fuchs operator is
+    λ(1-λ) y'' + (1-2λ) y' - y/4. The second Frobenius solution at λ = 0 is
+    L(λ) = F(λ) log λ + G(λ), with G(λ) = sum over n of a_n h_n λ^n,
+    a_n = (C(2n,n)/4^n)^2 the Taylor coefficients of F, and
+    h_n = sum_{k=1}^{n} 2/(k(2k-1)). Let D be the slit unit disc, the open
+    unit disc minus (-1, 0]. This entry proves, in Lean 4 and Mathlib, seven
+    statements.
+
+    (1) F is holomorphic on the unit disc and solves the Picard–Fuchs
+    equation there. (2) Period integral: for |λ| < 1,
+    F(λ) = (1/π) ∫_0^1 dx / (sqrt(x(1-x)) (1-λx)^{1/2}), with the principal
+    branch of the complex power. (3) Wronskian: F L' - F' L = 1/(λ(1-λ)) on
+    D. (4) Solution space: a function y is holomorphic on D and solves the
+    Picard–Fuchs equation on D if and only if y = aF + bL on D for some
+    complex constants a, b. (5) F and L are linearly independent on D.
+    (6) Local monodromy at 0: there is a function holomorphic on the unit
+    disc slit along [0, 1) that equals L on the open upper half-disc and
+    L + 2πi F on the open lower half-disc; that is, L continues analytically
+    across (-1, 0) to L + 2πi F, while F is holomorphic on the whole disc.
+    In the basis (F, L), the local monodromy at 0 is therefore
+    [[1, 2πi], [0, 1]]. (7) Connection formula: on the lens where |λ| < 1
+    and |λ - 1| < 1, F(1-λ) = (4 log 2 · F(λ) - L(λ))/π. This expresses the
+    solution regular at λ = 1 in the Frobenius basis at λ = 0; its constants
+    come from the classical asymptotic K(k) = log(4/k') + o(1) as k → 1,
+    which is proved here from the period integral.
+
+    The proofs are a power-series treatment of the equation and of G
+    (whose coefficients satisfy a harmonic-number recursion), Abel's identity
+    for the Wronskian, a uniqueness theorem for holomorphic solutions with
+    vanishing Cauchy data at an ordinary point (derivative recursion,
+    Taylor series and the identity theorem; Mathlib's ODE uniqueness is for
+    real time only), term-by-term integration of the binomial series against
+    Beta integrals, and an explicit estimate of the complete elliptic
+    integral near its logarithmic singularity. All seven results are
+    classical; this is, to our knowledge, their first Lean formalization.
+    Scope: everything is local to λ = 0 (and, for (7), to the lens);
+    the global monodromy group Γ(2) and analytic continuation along paths
+    are not formalized; the elliptic curve, its differential forms and its
+    homology do not appear, so "period" refers to the integral formula (2).
+  authors:
+    - "Rohan Badade"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Rohan Badade"
+
+classification:
+  arxiv: ["math.CA", "math.LO"]
+  msc2020: ["33C05", "34M35", "33E05", "14D05", "68V20"]
+
+sources:
+  - title: "NIST Digital Library of Mathematical Functions, Chapter 15 (Hypergeometric Function)"
+    authors:
+      - "A. B. Olde Daalhuis"
+    id: "https://dlmf.nist.gov/15"
+    type: "reference work"
+    location: "Eq. 15.10.1 (the hypergeometric equation; a = b = 1/2, c = 1 gives the Picard–Fuchs operator here); Eq. 15.10.8 with n = 1 (the logarithmic second solution at z = 0); Eq. 15.6.1 (Euler's integral, giving the period integral at a = b = 1/2, c = 1); Eq. 15.8.10 with m = 0 (the logarithmic connection formula for F(a,b;a+b;z), giving the connection formula at a = b = 1/2). Checked against the DLMF online edition in November 2026."
+    relationship: formalizes
+    license: "unknown"
+    author_endorsement: not-contacted
+    note: >-
+      Standard reference statements of the results formalized, specialized
+      to a = b = 1/2, c = 1. DLMF 15.10.8 with n = 1, a = b = 1/2 is
+      F log z + sum a_n (2ψ(1/2+n) - 2ψ(1+n)) z^n, which equals
+      L - 4 log 2 · F in this entry's notation (since
+      2(ψ(1/2) - ψ(1)) = -4 log 2), so the two logarithmic solutions differ
+      by a multiple of F. With that change of basis, DLMF 15.8.10 at m = 0
+      is the connection formula (7). Statements (3)-(6) are the standard
+      Frobenius and Wronskian theory of a Fuchsian equation at a regular
+      singular point, for which DLMF 15.10 is the reference used here; the
+      Lean proofs do not follow any particular text.
+  - title: "NIST Digital Library of Mathematical Functions, Chapter 19 (Elliptic Integrals)"
+    authors:
+      - "B. C. Carlson"
+    id: "https://dlmf.nist.gov/19"
+    type: "reference work"
+    location: "Eq. 19.5.1 (K(k) = (π/2) F(1/2,1/2;1;k^2)); Eqs. 19.12.1 and 19.12.3 (the expansion of K(k) near k = 1, whose leading term is log(4/k'))"
+    relationship: background
+    license: "unknown"
+    author_endorsement: "n/a"
+    note: >-
+      Identifies F with the complete elliptic integral of the first kind,
+      F(λ) = (2/π) K(sqrt(λ)), and supplies the asymptotic K(k) - log(4/k') -> 0
+      as k -> 1, whose consequence F(1-x) + (1/π) log x -> 4 log 2/π
+      (x -> 0+) is proved in Lean as an intermediate step of (7). Only that
+      limit is formalized, not the full expansion 19.12.1.
+  - title: "mathlib4: the Lean mathematical library"
+    authors:
+      - "The Mathlib Community"
+    id: "https://github.com/leanprover-community/mathlib4"
+    type: other
+    location: "Mathlib v4.35.0, as pinned by lakefile.toml and lake-manifest.json"
+    relationship: background
+    license: "Apache-2.0"
+    author_endorsement: "n/a"
+    note: >-
+      The ambient library. Challenge.lean imports only Mathlib. Mathlib
+      supplies ordinaryHypergeometric (used as the definition of F) and its
+      radius of convergence, the binomial series for complex powers, the
+      Beta and Gamma functions, the complex logarithm and slit plane,
+      Taylor series of holomorphic functions and the identity theorem. It is
+      a Lean dependency, not a mathematical source for any compared
+      statement.
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Formalized: exactly the seven statements listed in comparator.json and
+    stated in Challenge.lean, with sorry-free proofs in Legendre/. All seven
+    are unconditional. Everything is local: the solution space is
+    described on the slit disc D (and on any connected open subset of it),
+    the monodromy is the local monodromy at 0, and the connection formula
+    holds on the lens |λ| < 1, |λ - 1| < 1.
+
+    Not claimed. The global monodromy group (Γ(2)) and analytic
+    continuation along paths are not formalized. No elliptic curve,
+    differential form or homology class appears; "period" means the
+    integral formula (2). The results are classical, and the claim of a
+    first Lean formalization is made only to our knowledge. Proof terms
+    were not reviewed line by line by a human; see the review block.
+
+    Sorry and native_decide. The development is sorry-free and
+    native_decide-free, and the compared theorems depend only on propext,
+    Classical.choice and Quot.sound. Challenge.lean's own seven deliberate
+    sorries are the comparator placeholders and are not counted.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - declaration: "Legendre.F_solves"
+      file: "Legendre/Solutions.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.period_integral"
+      file: "Legendre/Period.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.wronskian"
+      file: "Legendre/Solutions.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.solution_space"
+      file: "Legendre/Classification.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.basis_independent"
+      file: "Legendre/Classification.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.monodromy"
+      file: "Legendre/Monodromy.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+    - declaration: "Legendre.connection"
+      file: "Legendre/Connection.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator.json"
+
+automation:
+  methods:
+    - method: agent
+      models: ["Claude (Anthropic)"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Claude (Anthropic) chose the Lean statements within the scope the
+        author set, wrote a mathematical blueprint (BLUEPRINT.md), and wrote
+        Challenge.lean, Solution.lean, comparator.json and this file.
+        Parallel Claude agents, one per blueprint section, wrote the Lean
+        proofs in Legendre/ by iterating against the Lean compiler on the
+        pinned toolchain. Formulas were checked numerically (mpmath, 30
+        digits) before formalization.
+      cost:
+        wall_time: "about two hours"
+        spend_usd: "not tracked"
+        hardware: "cloud container, 4 cores"
+      prompting_notes: >-
+        Work was posed as written targets: exact Lean statements with fixed
+        signatures, a blueprint section per agent, and the axiom budget
+        (propext, Quot.sound, Classical.choice only; no sorry, no
+        native_decide).
+    - method: manual
+      models: []
+      framework: "n/a"
+      tool_setup: >-
+        The human author chose the problem (the Legendre family's
+        Picard–Fuchs equation and monodromy), set the scope, and takes
+        responsibility for all claims.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "not tracked"
+      prompting_notes: "n/a"
+  spend_usd: "not tracked"
+  notes: >-
+    Human problem choice and approval; AI-written blueprint, statements and
+    Lean proofs (Claude). No human has reviewed the proof terms line by
+    line. The trust model is Lean's kernel plus the axiom audit and the
+    comparator check described under review.
+
+fidelity:
+  divergences: >-
+    Between the repository and Challenge.lean, which is what Palomar
+    compares: Challenge.lean imports only Mathlib and contains verbatim
+    copies of the definitions in Legendre/Defs.lean (F, coeff, harm, G, L,
+    D, legendreOp), placed in the namespace LegendreChallenge instead of
+    Legendre. There are no individual statement deviations.
+
+    Against the cited sources: the logarithmic solution L = F log λ + G
+    differs from DLMF 15.10.8 (n = 1, a = b = 1/2) by the multiple
+    -4 log 2 · F, a change of basis noted under sources; the connection
+    formula is DLMF 15.8.10 (m = 0, a = b = 1/2) rewritten in this basis.
+    Derivatives are Mathlib's deriv, applied to functions on ℂ; solutions
+    are required to be holomorphic on the stated open set, and values
+    outside it are irrelevant. The period integral is an interval integral
+    of a function with integrable endpoint singularities; its
+    integrability is part of the proof. The monodromy is stated as an
+    explicit holomorphic continuation across (-1, 0) rather than through
+    continuation along loops.
+
+review:
+  status: >-
+    self-assessed; automated mechanical checks in this repository's CI
+    (lake build with sorry census; lake comparator from the pinned Lean
+    v4.35.0 toolchain with statement match and replay through Lean's
+    kernel, NanoDa and con-ron); no line-by-line human review of proof
+    terms; no external mathematical peer review
+  reviewers:
+    - "Rohan Badade (self)"
+  notes: >-
+    Checked mechanically: lake build on the pinned toolchain with no sorry
+    warnings and no errors; #print axioms on every compared theorem
+    (propext, Classical.choice, Quot.sound); and the toolchain's lake
+    comparator with comparator.json against Challenge.lean, covering
+    statement match, definition identity, the axiom allowlist and kernel
+    replay. These repository checks are distinct from Palomar's own
+    verification. Checked numerically before formalization: the
+    Picard–Fuchs equation for L, the Wronskian, the period integral and
+    the connection formula at sample points, to 30 digits. Checked by a
+    human: the choice of statements and this file. Not done: line-by-line
+    human reading of proof terms; external mathematical review.
+
+alignment:
+  namespace: "LegendreChallenge"
+  statements:
+    - source: "DLMF 15.10.1 at a = b = 1/2, c = 1"
+      lean: "LegendreChallenge.F_solves_picardFuchs"
+      module: "Challenge"
+      status: proved
+      note: "F is holomorphic on the unit disc and solves the Picard–Fuchs equation there. Proved as Legendre.F_differentiableOn and Legendre.F_solves."
+    - source: "DLMF 15.6.1 at a = b = 1/2, c = 1"
+      lean: "LegendreChallenge.F_eq_period_integral"
+      module: "Challenge"
+      status: proved
+      note: "For |λ| < 1, F(λ) = (1/π) ∫_0^1 dx/(sqrt(x(1-x))(1-λx)^{1/2}), principal branch. Proved as Legendre.period_integral."
+    - source: "Abel's identity for the Frobenius basis of DLMF 15.10 at z = 0"
+      lean: "LegendreChallenge.wronskian_F_L"
+      module: "Challenge"
+      status: proved
+      note: "F L' - F' L = 1/(λ(1-λ)) on the slit disc D. Proved as Legendre.wronskian."
+    - source: "DLMF 15.10.1 and 15.10.8 (n = 1): Frobenius basis at z = 0"
+      lean: "LegendreChallenge.solution_space"
+      module: "Challenge"
+      status: proved
+      note: "The holomorphic solutions on D are exactly aF + bL. Proved as Legendre.solution_space (a special case of Legendre.solution_space_on for connected open subsets of D)."
+    - source: "DLMF 15.10.8 (n = 1): linear independence of the Frobenius basis"
+      lean: "LegendreChallenge.F_L_linearIndependent"
+      module: "Challenge"
+      status: proved
+      note: "aF + bL = 0 on D forces a = b = 0. Proved as Legendre.basis_independent."
+    - source: "Local monodromy at z = 0 of the solutions in DLMF 15.10.8 (n = 1)"
+      lean: "LegendreChallenge.monodromy_at_zero"
+      module: "Challenge"
+      status: proved
+      note: "L continues holomorphically across (-1, 0) from the upper half-disc to L + 2πi F on the lower half-disc. Proved as Legendre.monodromy."
+    - source: "DLMF 15.8.10 at m = 0, a = b = 1/2, rewritten in the basis (F, L)"
+      lean: "LegendreChallenge.connection_formula"
+      module: "Challenge"
+      status: proved
+      note: "F(1-λ) = (4 log 2 · F(λ) - L(λ))/π on the lens |λ| < 1, |λ - 1| < 1. Proved as Legendre.connection."
+
+acknowledgements: >-
+  Mathlib and its community, and the Lean 4 toolchain and the Lean FRO, for
+  the library and the kernel this development rests on, in particular
+  Mathlib's ordinary hypergeometric function, binomial series and Beta
+  integrals. The NIST Digital Library of Mathematical Functions for the
+  reference statements. Claude, by Anthropic, wrote the blueprint and the
+  Lean proofs. The author chose the problem and takes responsibility for all
+  claims.
