@@ -4,7 +4,7 @@
 version: "v0.4"
 
 project:
-  name: "One node, one density: the density of states of w1 w2 on the unit square, and the zeta function, sharp partition function and free energy of the singular learning model K = (w1 w2)^2"
+  name: "One node, one density: the density of states of w1 w2 on the unit square; the zeta function, sharp partition function and free energy of the singular learning model K = (w1 w2)^2; and the monomial zeta function with its learning coefficient and multiplicity"
   description: >-
     The node f(w) = w1 w2 on the closed unit square [0,1]^2 has one
     distinguished function, P(s) = -log s. This entry proves in Lean 4 and
@@ -12,8 +12,8 @@ project:
     function, partition function and free energy of the toy singular
     learning model K(w) = (w1 w2)^2 with uniform prior on [0,1]^2 are
     explicit transforms of it; it also states the monodromy of the
-    logarithm in Mathlib's covering-space sense. Six statements are
-    compared.
+    logarithm in Mathlib's covering-space sense, and treats the general
+    monomial (normal-crossing) zeta function. Nine statements are compared.
 
     (1) Density of states: the pushforward of Lebesgue measure on [0,1]^2
     under w -> w1 w2 equals the measure on (0,1] with density -log s. (The
@@ -25,31 +25,48 @@ project:
     1/(2z+1)^2. The closed form has a double pole at -1/2, which in
     Watanabe's singular learning theory corresponds to learning coefficient
     1/2 and multiplicity 2; meromorphic continuation is not stated.
-    (4) Sharp partition function: Z(n) = integral over [0,1]^2 of
+    (4)-(6) Monomial (normal-crossing) zeta function. For natural numbers
+    k_1, ..., k_d, real h_1, ..., h_d, K(w) = prod_j w_j^(2 k_j) and the
+    (unnormalized) prior density phi(w) = prod_j w_j^(h_j) on [0,1]^d:
+    (4) K^z phi is integrable on the cube if and only if
+    2 k_j z + h_j + 1 > 0 for every j (real z); (5) then
+    zeta(z) = integral of K^z phi = prod_j 1/(2 k_j z + h_j + 1); and
+    (6) if all k_j > 0, lambda = min_j (h_j + 1)/(2 k_j) and m >= 1 is the
+    number of indices attaining it, then (z + lambda)^m zeta(z) tends to a
+    nonzero limit as z -> -lambda from above, i.e. zeta has a pole of order
+    exactly m at -lambda (real variable, one-sided). This is the
+    normal-crossing form to which singular learning theory reduces a model
+    after resolution of singularities, where (lambda, m) are the learning
+    coefficient and its multiplicity; the resolution step is not
+    formalized. (2)-(3) are the case d = 2, k = (1,1), h = 0, stated on
+    R x R and proved separately through (1).
+    (7) Sharp partition function: Z(n) = integral over [0,1]^2 of
     exp(-n (w1 w2)^2) satisfies
     Z(n) = (sqrt(pi)/(4 sqrt(n))) (log n + gamma + 2 log 2) + O(exp(-n)) as
     real n -> infinity, where gamma is the Euler–Mascheroni constant.
-    (5) Free energy: F(n) = -log Z(n) satisfies
+    (8) Free energy: F(n) = -log Z(n) satisfies
     F(n) - (1/2 log n - log log n) -> log(4/sqrt(pi)), the form
     lambda log n - (m - 1) log log n + O(1) of Watanabe's asymptotics with
-    lambda = 1/2, m = 2, here with the exact constant. (6) Monodromy of the
+    lambda = 1/2, m = 2, here with the exact constant. (9) Monodromy of the
     logarithm: for Mathlib's covering map exp from the complex plane to the
     punctured plane and the loop theta -> exp(2 pi i theta) based at 1,
     IsCoveringMap.monodromy sends the fibre point 0 to 2 pi i. Lifts through
     exp are continuations of log, so P = -log continues to P - 2 pi i
     around s = 0: the unipotent monodromy of the node's period.
 
-    In the Lean development, (2)-(5) are derived from the same transfer
+    In the Lean development, (2), (3), (7) and (8) are derived from the same transfer
     lemma, a consequence of (1): an integral over the square of a function
     of w1 w2 equals the integral over (0,1] of that function against
     -log s. The zeta function is then the Mellin transform of -log s and
     the partition function its Gaussian Laplace transform. The exact
-    constant in (4) comes from Mathlib's value of the derivative of the
-    Gamma function at 1/2. Scope: one explicit model, real variables,
-    uniform prior on the closed unit square; none of the general theory of
-    singular learning, resolution of singularities, b-functions or
-    Picard–Lefschetz theory is formalized, and (6) is the monodromy of the
-    logarithm itself, not of a family of cycles. All results are classical
+    constant in (7) comes from Mathlib's value of the derivative of the
+    Gamma function at 1/2. Scope: real variables throughout; (1)-(3) and
+    (7)-(8) concern one explicit model with uniform prior on the closed unit
+    square, and (4)-(6) monomial models on the closed unit cube; resolution
+    of singularities, the reduction of general models to normal-crossing
+    form, the general free-energy asymptotic, b-functions and
+    Picard–Lefschetz theory are not formalized, and (9) is the monodromy of
+    the logarithm itself, not of a family of cycles. All results are classical
     or elementary consequences of classical results; we searched the
     Palomar registry and Mathlib (November 2026) and found no prior
     formalization of them, but did not search other sources, so priority
@@ -75,14 +92,16 @@ sources:
     license: "unknown"
     author_endorsement: not-contacted
     note: >-
-      The entry formalizes one explicit instance of these notions: the
-      model K(w) = (w1 w2)^2 with uniform prior on [0,1]^2, for which
-      lambda = 1/2 and m = 2. Results (2)-(5) are this instance, with the
-      zeta function in closed form and the asymptotics of Z(n) and F(n)
-      sharpened to exact constants. The general theorems of the book
+      The entry formalizes the zeta function, learning coefficient and
+      multiplicity of monomial (normal-crossing) models on the unit cube,
+      results (4)-(6), which is the form a model takes after resolution of
+      singularities, and one explicit instance in full: the model
+      K(w) = (w1 w2)^2 with uniform prior on [0,1]^2, for which lambda = 1/2
+      and m = 2 (results (2), (3), (7), (8), with the asymptotics of Z(n) and
+      F(n) sharpened to exact constants). The general theorems of the book
       (existence of the learning coefficient for analytic models, resolution
-      of singularities, the general asymptotic expansion) are not
-      formalized.
+      of singularities, the general asymptotic expansion of the free energy)
+      are not formalized.
   - title: "Singularities of Differentiable Maps, Volume II: Monodromy and Asymptotics of Integrals"
     authors:
       - "V. I. Arnold"
@@ -96,7 +115,7 @@ sources:
     note: >-
       Background for reading -log s as the period of the node's real fibre
       and for the unipotent monodromy of that period. None of the book's
-      general results is formalized; result (6) is only the monodromy of
+      general results is formalized; result (9) is only the monodromy of
       the logarithm.
   - title: "B-functions and holonomic systems"
     authors:
@@ -184,15 +203,18 @@ related_formalizations:
 
 status:
   scope: >-
-    Formalized: exactly the six statements listed in comparator-node.json
+    Formalized: exactly the nine statements listed in comparator-node.json
     and stated in ChallengeNode.lean, with sorry-free proofs in Node/. All
-    are unconditional. Results (1)-(5) concern one explicit model on the
-    closed unit square with uniform prior and real variables; (6) is the
-    monodromy of the complex logarithm in Mathlib's covering-space sense.
+    are unconditional. The node results concern one explicit model on the
+    closed unit square with uniform prior and real variables; the monomial
+    results concern K = prod w_j^(2 k_j) with prior density prod w_j^(h_j)
+    on the closed unit cube; the monodromy theorem is the monodromy of the
+    complex logarithm in Mathlib's covering-space sense.
 
-    Not claimed. No general singular learning theory (learning coefficients
-    of general models, resolution of singularities, the general asymptotic
-    expansion), no b-functions, no Picard–Lefschetz theory and no
+    Not claimed. No singular learning theory beyond the monomial case: no
+    resolution of singularities, no reduction of general models to
+    normal-crossing form, no general free-energy asymptotic (only the node's),
+    and no b-functions, no Picard–Lefschetz theory and no
     meromorphic continuation of zeta; the Kan-extension and b-function
     framing in the description is not formalized. The results are classical
     or elementary; priority among Lean formalizations is unknown. Proof
@@ -200,7 +222,7 @@ status:
 
     Sorry and native_decide. The development is sorry-free and
     native_decide-free, and the compared theorems depend only on propext,
-    Classical.choice and Quot.sound. ChallengeNode.lean's own six deliberate
+    Classical.choice and Quot.sound. ChallengeNode.lean's own nine deliberate
     sorries are the comparator placeholders and are not counted.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -218,6 +240,21 @@ status:
       comparator_config: "comparator-node.json"
     - declaration: "Node.node_learning_zeta"
       file: "Node/Zeta.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.monomial_zeta_integrable"
+      file: "Node/NormalCrossing.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.monomial_zeta"
+      file: "Node/NormalCrossing.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.monomial_pole"
+      file: "Node/NormalCrossing.lean"
       sorry_count: 0
       axioms: ["propext", "Quot.sound", "Classical.choice"]
       comparator_config: "comparator-node.json"
@@ -247,7 +284,7 @@ automation:
         statements and wrote ChallengeNode.lean, SolutionNode.lean,
         comparator-node.json and this file. Parallel Claude agents, one per
         result group (density of states, zeta, partition function and free
-        energy, monodromy), wrote the proofs in Node/ by iterating against
+        energy, monodromy, the monomial zeta function), wrote the proofs in Node/ by iterating against
         the Lean compiler on the pinned toolchain. The closed forms and
         asymptotics were checked numerically (mpmath, 30 digits) first.
       cost:
@@ -283,12 +320,17 @@ fidelity:
     compares: ChallengeNode.lean imports only Mathlib and contains verbatim
     copies of the three definitions in Node/Monodromy.lean (basePt,
     unitLoop, zeroInFibre), in the namespace NodeChallenge instead of Node;
-    every other object (the square, the model K, Z(n), the density) is
-    written inline in the statements. There are no individual statement
+    every other object (the square and cube, the models K, the priors, Z(n),
+    zeta, lambda and m, the density) is written inline in the statements. There are no individual statement
     deviations.
 
     Against the sources: Watanabe's invariants are defined for general
-    models with a prior; here the model is fixed (K = (w1 w2)^2, uniform
+    models with a prior. For the monomial results the prior density
+    prod w_j^(h_j) is not normalized and h_j > -1 is not assumed (the
+    statements hold without it), lambda is characterized as the minimum of
+    the (h_j + 1)/(2 k_j) by a lower-bound hypothesis plus attainment, and
+    the pole order is expressed by the nonzero one-sided limit of
+    (z + lambda)^m zeta(z). For the node results the model is fixed (K = (w1 w2)^2, uniform
     prior on the closed unit square, real parameters), zeta is evaluated
     only for real z, and the double pole is read off the closed form for
     z > -1/2, with the integrability threshold z > -1/2 proved separately,
@@ -338,6 +380,21 @@ alignment:
       module: "ChallengeNode"
       status: proved
       note: "For real z > -1/2, the zeta function equals 1/(2z+1)^2. Proved as Node.node_learning_zeta."
+    - source: "Watanabe (2009): zeta function of a model in normal-crossing form (domain)"
+      lean: "NodeChallenge.monomial_zeta_integrable"
+      module: "ChallengeNode"
+      status: proved
+      note: "K^z phi is integrable on [0,1]^d iff 2 k_j z + h_j + 1 > 0 for all j. Proved as Node.monomial_zeta_integrable."
+    - source: "Watanabe (2009): zeta function of a model in normal-crossing form (closed form)"
+      lean: "NodeChallenge.monomial_zeta"
+      module: "ChallengeNode"
+      status: proved
+      note: "zeta(z) = prod_j 1/(2 k_j z + h_j + 1). Proved as Node.monomial_zeta."
+    - source: "Watanabe (2009): learning coefficient lambda and multiplicity m of a model in normal-crossing form"
+      lean: "NodeChallenge.monomial_pole"
+      module: "ChallengeNode"
+      status: proved
+      note: "With lambda = min_j (h_j+1)/(2 k_j) attained by m >= 1 indices, (z + lambda)^m zeta(z) has a nonzero limit as z -> -lambda from above. Proved as Node.monomial_pole."
     - source: "Watanabe (2009): asymptotic of the partition function, instance K = (w1 w2)^2, sharpened with the exact constant"
       lean: "NodeChallenge.node_partition_sharp"
       module: "ChallengeNode"

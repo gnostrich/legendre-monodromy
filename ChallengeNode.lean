@@ -20,6 +20,14 @@ The node `f(w) = w₁ w₂` on the unit square `[0,1]²` has one distinguished f
   (real `z`) is finite exactly for `z > -1/2`, where it equals `1/(2z+1)²`. The closed form
   has a double pole at `-1/2`; in Watanabe's singular learning theory this is a learning
   coefficient `1/2` with multiplicity `2`. Meromorphic continuation is not stated.
+* `monomial_zeta_integrable`, `monomial_zeta` and `monomial_pole`: the general monomial
+  (normal-crossing) case, to which singular learning theory reduces a model after resolution
+  of singularities (the resolution itself is not formalized). For `K(w) = ∏ⱼ wⱼ^(2kⱼ)` and
+  prior density `∏ⱼ wⱼ^(hⱼ)` on `[0,1]^d`, `ζ(z) = ∫ K^z φ` is finite exactly when every
+  `2kⱼ z + hⱼ + 1 > 0`, equals `∏ⱼ 1/(2kⱼ z + hⱼ + 1)` there, and `(z + λ)^m ζ(z)` has a
+  nonzero limit as `z → -λ⁺`, where `λ = minⱼ (hⱼ + 1)/(2kⱼ)` and `m` is the number of
+  indices attaining it. The node results above are the case `d = 2`, `k = (1, 1)`, `h = 0`,
+  stated on `ℝ × ℝ`.
 * `node_partition_sharp`: the partition function `Z(n) = ∫ exp(-n K)` satisfies
   `Z(n) = (√π / (4√n)) (log n + γ + 2 log 2) + O(e^{-n})` as `n → ∞` (real `n`).
 * `node_free_energy`: the free energy `F(n) = -log Z(n)` satisfies
@@ -80,6 +88,40 @@ theorem node_learning_zeta_integrable (z : ℝ) :
 for real `z > -1/2`. -/
 theorem node_learning_zeta (z : ℝ) (hz : -1 / 2 < z) :
     ∫ w in Icc (0 : ℝ) 1 ×ˢ Icc (0 : ℝ) 1, ((w.1 * w.2) ^ 2) ^ z = 1 / (2 * z + 1) ^ 2 := by
+  sorry
+
+/-- The monomial (normal-crossing) zeta function: for `K(w) = ∏ⱼ wⱼ^(2kⱼ)` and the prior
+density `φ(w) = ∏ⱼ wⱼ^(hⱼ)` on `[0,1]^d` (not normalized), `K^z φ` is integrable on the cube
+exactly when `2kⱼ z + hⱼ + 1 > 0` for every `j` (real `z`). -/
+theorem monomial_zeta_integrable {d : ℕ} (k : Fin d → ℕ) (h : Fin d → ℝ) (z : ℝ) :
+    IntegrableOn (fun w : Fin d → ℝ => (∏ j, w j ^ (2 * k j)) ^ z * ∏ j, w j ^ h j)
+        (Set.univ.pi fun _ => Icc (0 : ℝ) 1) ↔
+      ∀ j, 0 < 2 * (k j : ℝ) * z + h j + 1 := by
+  sorry
+
+/-- The monomial zeta function in closed form:
+`∫_{[0,1]^d} K^z φ = ∏ⱼ 1/(2kⱼ z + hⱼ + 1)` whenever every factor is positive. -/
+theorem monomial_zeta {d : ℕ} (k : Fin d → ℕ) (h : Fin d → ℝ) (z : ℝ)
+    (hz : ∀ j, 0 < 2 * (k j : ℝ) * z + h j + 1) :
+    ∫ w in Set.univ.pi (fun _ => Icc (0 : ℝ) 1), (∏ j, w j ^ (2 * k j)) ^ z * ∏ j, w j ^ h j =
+      ∏ j, 1 / (2 * (k j : ℝ) * z + h j + 1) := by
+  sorry
+
+/-- The learning coefficient and its multiplicity for the monomial model. Let `λ` be the
+smallest of the numbers `(hⱼ + 1)/(2kⱼ)` (all `kⱼ > 0`) and `m ≥ 1` the number of indices
+attaining it. Then `(z + λ)^m ζ(z)` tends to a nonzero limit as `z → -λ` from above, where
+`ζ(z) = ∫_{[0,1]^d} K^z φ`: the zeta function has a pole of order exactly `m` at `-λ`
+(real variable, one-sided; meromorphic continuation is not stated). -/
+theorem monomial_pole {d : ℕ} (k : Fin d → ℕ) (hk : ∀ j, 0 < k j) (h : Fin d → ℝ) (lam : ℝ)
+    (hmin : ∀ j, lam ≤ (h j + 1) / (2 * (k j : ℝ)))
+    (hattain : ∃ j, (h j + 1) / (2 * (k j : ℝ)) = lam) :
+    0 < (Finset.univ.filter fun j => (h j + 1) / (2 * (k j : ℝ)) = lam).card ∧
+      ∃ c : ℝ, c ≠ 0 ∧
+        Tendsto (fun z : ℝ =>
+            (z + lam) ^ (Finset.univ.filter fun j => (h j + 1) / (2 * (k j : ℝ)) = lam).card *
+              ∫ w in Set.univ.pi (fun _ => Icc (0 : ℝ) 1),
+                (∏ j, w j ^ (2 * k j)) ^ z * ∏ j, w j ^ h j)
+          (𝓝[>] (-lam)) (𝓝 c) := by
   sorry
 
 /-- The partition function `Z(n) = ∫_{[0,1]²} exp(-n (w₁w₂)²) dw` satisfies

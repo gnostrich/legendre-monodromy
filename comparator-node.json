@@ -5,6 +5,9 @@
     "NodeChallenge.node_density_of_states",
     "NodeChallenge.node_learning_zeta_integrable",
     "NodeChallenge.node_learning_zeta",
+    "NodeChallenge.monomial_zeta_integrable",
+    "NodeChallenge.monomial_zeta",
+    "NodeChallenge.monomial_pole",
     "NodeChallenge.node_partition_sharp",
     "NodeChallenge.node_free_energy",
     "NodeChallenge.node_period_monodromy"
