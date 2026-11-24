@@ -108,7 +108,8 @@ theorem node_density_of_states :
       ← Ioc_union_Ioc_eq_Ioc hs.le hs1, lintegral_union measurableSet_Ioc
         (Ioc_disjoint_Ioc_of_le le_rfl)]
     rw [setLIntegral_congr_fun measurableSet_Ioc (g := fun _ => 1),
-      setLIntegral_congr_fun (s := Ioc s 1) measurableSet_Ioc (g := fun x => ENNReal.ofReal (s / x)),
+      setLIntegral_congr_fun (s := Ioc s 1) measurableSet_Ioc
+        (g := fun x => ENNReal.ofReal (s / x)),
       lintegral_div_Ioc hs hs1, setLIntegral_const, one_mul, Real.volume_Ioc, sub_zero,
       ← ENNReal.ofReal_add hs.le]
     · congr 1
