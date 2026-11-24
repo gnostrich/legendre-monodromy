@@ -13,6 +13,10 @@ The period function is `F(λ) = ₂F₁(1/2, 1/2; 1; λ)`, Mathlib's
 `L(λ) = F(λ) log λ + G(λ)`, where `G(λ) = ∑ aₙ hₙ λⁿ`,
 `aₙ = (C(2n,n)/4ⁿ)²` and `hₙ = ∑_{k=1}^{n} 2/(k(2k-1))`.
 
+Registered in the Palomar registry as
+[PALOMAR-2026-11-24-000008](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-24-000008&version=1)
+(version 1, commit `5856d40`).
+
 ## Exact claims
 
 [`Challenge.lean`](Challenge.lean) imports only Mathlib and states the seven
