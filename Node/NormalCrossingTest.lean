@@ -27,7 +27,7 @@ theorem lintegral_fin_prod {n : ℕ} {μ : Fin n → Measure ℝ} [∀ i, SigmaF
             Fin.zero_succAbove, cast_eq, Fin.cons_zero]
         _ = (∫⁻ x, f 0 x ∂μ 0) * ∏ i : Fin n, ∫⁻ x, f (Fin.succ i) x ∂(μ i.succ) := by
           rw [← n_ih (fun i => f i.succ) (fun i => hf _)]
-          exact lintegral_prod_mul (f := f 0) (g := fun y : Fin n → ℝ => ∏ i, f i.succ (y i))
+          exact lintegral_prod_mul (μ := μ 0) (ν := Measure.pi fun i => μ i.succ) (f := f 0) (g := fun y : Fin n → ℝ => ∏ i, f i.succ (y i))
             (hf 0).aemeasurable
             (Finset.measurable_prod _ fun i _ => (hf _).comp (measurable_pi_apply i)).aemeasurable
         _ = ∏ i, ∫⁻ x, f i x ∂(μ i) := by rw [Fin.prod_univ_succ]
