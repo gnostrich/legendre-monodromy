@@ -163,11 +163,12 @@ theorem Zf_theta (d : ℕ) : ∀ (k : Fin (d + 1) → ℕ) (_hk : ∀ j, 0 < k j
     intro k hk h hh lam hmin hattain
     have hlam : lam = (h 0 + 1) / (2 * (k 0 : ℝ)) := by
       obtain ⟨j, hj⟩ := hattain
-      rw [Subsingleton.elim j 0] at hj
+      rw [show j = 0 from Fin.ext (by have := j.isLt; omega)] at hj
       exact hj.symm
     have hcard : (Finset.univ.filter fun j : Fin 1 => (h j + 1) / (2 * (k j : ℝ)) = lam).card
         = 1 := by
-      rw [Finset.filter_true_of_mem fun j _ => by rw [Subsingleton.elim j 0, hlam]]
+      rw [Finset.filter_true_of_mem fun j _ => by
+        rw [show j = 0 from Fin.ext (by have := j.isLt; omega), hlam]]
       rfl
     have hZ : Zf k h = fun n => ∫ t in Ioc (0 : ℝ) 1, t ^ h 0 * Real.exp (-n * t ^ (2 * k 0)) := by
       funext n
@@ -212,7 +213,7 @@ theorem Zf_theta (d : ℕ) : ∀ (k : Fin (d + 1) → ℕ) (_hk : ∀ j, 0 < k j
         intro j _ hj
         have := hμmin j
         linarith
-      simp only [if_pos hlt] at S
+      simp only [hlt, ↓reduceIte] at S
       simpa [hempty] using S
     · have hlam : lam = μ := by
         obtain ⟨j, hj⟩ := hattain
@@ -222,10 +223,10 @@ theorem Zf_theta (d : ℕ) : ∀ (k : Fin (d + 1) → ℕ) (_hk : ∀ j, 0 < k j
         · have := hμmin j
           linarith
       subst hlam
-      simp only [if_neg (lt_irrefl _), heq, if_true] at S ⊢
-      rw [← hM]
-      convert S using 3
-      omega
+      simp only [lt_irrefl, heq, ↓reduceIte] at S ⊢
+      rw [Nat.add_sub_cancel, ← hM]
+      rw [Nat.sub_add_cancel hM1] at S
+      exact S
     · have hlam : lam = μ := by
         obtain ⟨j, hj⟩ := hattain
         have h1 : lam ≤ μ := hμ ▸ hmin j₀.succ
@@ -234,7 +235,7 @@ theorem Zf_theta (d : ℕ) : ∀ (k : Fin (d + 1) → ℕ) (_hk : ∀ j, 0 < k j
         · have := hμmin j
           linarith
       subst hlam
-      simp only [if_neg (not_lt.2 hgt.le), if_neg hgt.ne', if_false] at S ⊢
+      simp only [not_lt.2 hgt.le, hgt.ne', ↓reduceIte] at S ⊢
       rw [← hM]
       exact S
 
