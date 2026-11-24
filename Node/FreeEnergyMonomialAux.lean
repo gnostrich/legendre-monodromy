@@ -140,4 +140,102 @@ theorem Zf_succ {d : ℕ} (k : Fin (d + 1) → ℕ) (h : Fin (d + 1) → ℝ) (h
   simp only [hFdef]
   rw [integral_const_mul]
 
+theorem Zf_zero (k : Fin 0 → ℕ) (h : Fin 0 → ℝ) (n : ℝ) : Zf k h n = Real.exp (-n) := by
+  unfold Zf cube
+  rw [Measure.pi_of_empty, integral_dirac]
+  simp
+
+theorem a_pos {d : ℕ} (k : Fin d → ℕ) (hk : ∀ j, 0 < k j) (h : Fin d → ℝ) (hh : ∀ j, -1 < h j)
+    (j : Fin d) : 0 < (h j + 1) / (2 * (k j : ℝ)) := by
+  have := hk j
+  have := hh j
+  exact div_pos (by linarith) (by positivity)
+
+/-- The asymptotics of `Zf` in dimension `d + 1`, by induction on `d`. -/
+theorem Zf_theta (d : ℕ) : ∀ (k : Fin (d + 1) → ℕ) (_hk : ∀ j, 0 < k j)
+    (h : Fin (d + 1) → ℝ) (_hh : ∀ j, -1 < h j) (lam : ℝ)
+    (_hmin : ∀ j, lam ≤ (h j + 1) / (2 * (k j : ℝ)))
+    (_hattain : ∃ j, (h j + 1) / (2 * (k j : ℝ)) = lam),
+    Zf k h =Θ[atTop] fun n : ℝ => n ^ (-lam) *
+      Real.log n ^ ((Finset.univ.filter fun j => (h j + 1) / (2 * (k j : ℝ)) = lam).card - 1) := by
+  induction d with
+  | zero =>
+    intro k hk h hh lam hmin hattain
+    have hlam : lam = (h 0 + 1) / (2 * (k 0 : ℝ)) := by
+      obtain ⟨j, hj⟩ := hattain
+      rw [Subsingleton.elim j 0] at hj
+      exact hj.symm
+    have hcard : (Finset.univ.filter fun j : Fin 1 => (h j + 1) / (2 * (k j : ℝ)) = lam).card
+        = 1 := by
+      rw [Finset.filter_true_of_mem fun j _ => by rw [Subsingleton.elim j 0, hlam]]
+      rfl
+    have hZ : Zf k h = fun n => ∫ t in Ioc (0 : ℝ) 1, t ^ h 0 * Real.exp (-n * t ^ (2 * k 0)) := by
+      funext n
+      rw [Zf_succ k h hh]
+      simp only [Zf_zero, neg_mul]
+    rw [hZ, hcard, hlam]
+    simpa using base_theta (k 0) (hk 0) (h 0) (hh 0)
+  | succ d ih =>
+    intro k hk h hh lam hmin hattain
+    obtain ⟨j₀, hj₀⟩ := Finite.exists_min fun j : Fin (d + 1) =>
+      (h j.succ + 1) / (2 * (k j.succ : ℝ))
+    obtain ⟨μ, hμ⟩ : ∃ μ, μ = (h j₀.succ + 1) / (2 * (k j₀.succ : ℝ)) := ⟨_, rfl⟩
+    have hμmin : ∀ j : Fin (d + 1), μ ≤ (h j.succ + 1) / (2 * (k j.succ : ℝ)) :=
+      fun j => hμ ▸ hj₀ j
+    have IH := ih (fun j => k j.succ) (fun j => hk _) (fun j => h j.succ) (fun j => hh _) μ
+      hμmin ⟨j₀, hμ.symm⟩
+    obtain ⟨M, hM⟩ : ∃ M, M = (Finset.univ.filter fun j : Fin (d + 1) =>
+        (h j.succ + 1) / (2 * (k j.succ : ℝ)) = μ).card := ⟨_, rfl⟩
+    rw [← hM] at IH
+    have hM1 : 1 ≤ M := by
+      rw [hM]
+      exact Finset.card_pos.2 ⟨j₀, by simp [hμ]⟩
+    have hμpos : 0 < μ := hμ ▸ a_pos k hk h hh _
+    have S := step_theta (k 0) (hk 0) (h 0) (hh 0) μ hμpos (M - 1)
+      (Zf (fun j => k j.succ) (fun j => h j.succ)) (Zf_cont _ _ fun j => hh _)
+      (Zf_pos _ _ fun j => hh _) (Zf_anti _ _ fun j => hh _) IH
+    have hZ : Zf k h = fun n => ∫ t in Ioc (0 : ℝ) 1,
+        t ^ h 0 * Zf (fun j => k j.succ) (fun j => h j.succ) (n * t ^ (2 * k 0)) :=
+      funext (Zf_succ k h hh)
+    rw [hZ, Fin.card_filter_univ_succ]
+    rcases lt_trichotomy ((h 0 + 1) / (2 * (k 0 : ℝ))) μ with hlt | heq | hgt
+    · have hlam : lam = (h 0 + 1) / (2 * (k 0 : ℝ)) := by
+        obtain ⟨j, hj⟩ := hattain
+        refine Fin.cases (fun hj => hj.symm) (fun j hj => ?_) j hj
+        have := hmin 0
+        have := hμmin j
+        linarith
+      subst hlam
+      have hempty : (Finset.univ.filter fun j : Fin (d + 1) =>
+          (h j.succ + 1) / (2 * (k j.succ : ℝ)) = (h 0 + 1) / (2 * (k 0 : ℝ))).card = 0 := by
+        rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+        intro j _ hj
+        have := hμmin j
+        linarith
+      simp only [if_pos hlt] at S
+      simpa [hempty] using S
+    · have hlam : lam = μ := by
+        obtain ⟨j, hj⟩ := hattain
+        have h1 : lam ≤ μ := hμ ▸ hmin j₀.succ
+        refine Fin.cases (fun hj => ?_) (fun j hj => ?_) j hj
+        · linarith
+        · have := hμmin j
+          linarith
+      subst hlam
+      simp only [if_neg (lt_irrefl _), heq, if_true] at S ⊢
+      rw [← hM]
+      convert S using 3
+      omega
+    · have hlam : lam = μ := by
+        obtain ⟨j, hj⟩ := hattain
+        have h1 : lam ≤ μ := hμ ▸ hmin j₀.succ
+        refine Fin.cases (fun hj => ?_) (fun j hj => ?_) j hj
+        · linarith
+        · have := hμmin j
+          linarith
+      subst hlam
+      simp only [if_neg (not_lt.2 hgt.le), if_neg hgt.ne', if_false] at S ⊢
+      rw [← hM]
+      exact S
+
 end Node.FEM
