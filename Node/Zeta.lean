@@ -8,7 +8,8 @@ public import Node.ZetaCore
 /-!
 # The learning zeta function of `K = (w₁ w₂)²`
 
-Interface theorems (signatures fixed): `node_learning_zeta_integrable`, `node_learning_zeta`.
+Main results: `node_learning_zeta_integrable`, `node_learning_zeta`, derived from the transfer
+lemmas of `Node/Density.lean` and the Mellin transform of `-log s` (`Node/ZetaCore.lean`).
 -/
 
 open MeasureTheory Set Filter Topology

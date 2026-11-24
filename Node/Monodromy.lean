@@ -8,7 +8,8 @@ public import Mathlib
 # Monodromy of the logarithm, via Mathlib's `IsCoveringMap.monodromy`
 
 Definitions `basePt`, `unitLoop`, `zeroInFibre` are copied verbatim into `ChallengeNode.lean`.
-Interface theorem (signature fixed): `node_period_monodromy`.
+Main result: `node_period_monodromy`, proved with `IsCoveringMap.monodromy_eq_apply_one` and
+the explicit lift `θ ↦ 2πiθ`.
 -/
 
 open MeasureTheory Set Filter Topology

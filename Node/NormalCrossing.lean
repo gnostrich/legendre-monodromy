@@ -10,8 +10,8 @@ public import Mathlib
 For `K(w) = ∏ⱼ wⱼ^(2kⱼ)` and prior density `∏ⱼ wⱼ^(hⱼ)` on `[0,1]^d`: integrability of
 `K^z φ`, the closed form `∏ⱼ 1/(2kⱼ z + hⱼ + 1)`, and the pole of order `m` at `-λ`.
 
-Interface theorems (signatures fixed): `monomial_zeta_integrable`, `monomial_zeta`,
-`monomial_pole`.
+Main results: `monomial_zeta_integrable`, `monomial_zeta`, `monomial_pole`. The integral over
+the cube factorizes into one-variable power integrals (`integral_fintype_prod_eq_prod`).
 -/
 
 open MeasureTheory Set Filter Topology

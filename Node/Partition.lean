@@ -8,7 +8,7 @@ public import Node.PartitionGauss
 /-!
 # The partition function and free energy of `K = (w₁ w₂)²`
 
-Interface theorems (signatures fixed): `node_partition_sharp`, `node_free_energy`.
+Main results: `node_partition_sharp`, `node_free_energy`.
 
 Via `Node.integral_square_comp`, `Z(n) = ∫₀¹ e^{-n s²} (-log s) ds`; the one-variable analysis
 (Gaussian–logarithm integral, scaling, exponentially small tail) is in `Node.PartitionGauss`.

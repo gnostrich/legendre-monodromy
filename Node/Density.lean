@@ -7,8 +7,10 @@ public import Mathlib
 /-!
 # Density of states of the node `w₁ w₂` on the unit square
 
-Interface theorems (signatures fixed): `node_density_of_states`, `lintegral_square_comp`,
-`integral_square_comp`, `integrableOn_square_comp_iff`.
+Main results: `node_density_of_states` (the pushforward of Lebesgue measure on `[0,1]²` under
+`w ↦ w₁w₂` has density `-log s` on `(0,1]`), and the transfer lemmas `lintegral_square_comp`,
+`integral_square_comp` and `integrableOn_square_comp_iff`, which turn an integral of `g(w₁w₂)`
+over the square into an integral of `g` against `-log s`.
 
 The push-forward of Lebesgue measure on `[0,1]²` under `w ↦ w₁ w₂` has density `-log s` on
 `(0,1]`. We prove this by comparing the two (finite) measures on all half-lines `Iic s`: both
