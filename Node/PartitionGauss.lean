@@ -96,8 +96,9 @@ theorem integral_Ioi_gaussLogIntegrand {n : ℝ} (hn : 0 < n) :
       ∫ x in Ioi (0 : ℝ), (-(Real.log x * Real.exp (-x ^ 2)) +
         Real.log n / 2 * Real.exp (-x ^ 2)) :=
     setIntegral_congr_fun measurableSet_Ioi fun x hx => gaussLogIntegrand_scale hn hx
-  rw [h2, integral_add integrableOn_log_mul_exp_neg_sq.neg
-    (integrableOn_exp_neg_sq_Ioi.const_mul _), integral_neg, integral_const_mul,
+  have hi1 : IntegrableOn (fun x : ℝ => -(Real.log x * Real.exp (-x ^ 2))) (Ioi 0) :=
+    integrableOn_log_mul_exp_neg_sq.neg
+  rw [h2, integral_add hi1 (integrableOn_exp_neg_sq_Ioi.const_mul _), integral_neg, integral_const_mul,
     integral_Ioi_log_mul_exp_neg_sq, integral_exp_neg_sq_Ioi] at h
   have h3 : ∫ s in Ioi (0 : ℝ), gaussLogIntegrand n s =
       (√n)⁻¹ * (√n * ∫ s in Ioi (0 : ℝ), gaussLogIntegrand n s) := by
@@ -112,7 +113,7 @@ theorem integral_Ioc_gaussLogIntegrand {n : ℝ} (hn : 0 < n) :
       gaussLogMain n - ∫ s in Ioi (1 : ℝ), gaussLogIntegrand n s := by
   have hi := integrableOn_gaussLogIntegrand hn
   rw [← integral_Ioi_gaussLogIntegrand hn, ← Ioc_union_Ioi_eq_Ioi zero_le_one,
-    integral_union Ioc_disjoint_Ioi_same measurableSet_Ioi
+    setIntegral_union Ioc_disjoint_Ioi_same measurableSet_Ioi
       (hi.mono_set Ioc_subset_Ioi_self) (hi.mono_set (Ioi_subset_Ioi zero_le_one))]
   ring
 
@@ -127,12 +128,11 @@ theorem tail_gaussLogIntegrand_bound : ∃ C : ℝ, ∀ n : ℝ, 1 ≤ n →
   have hs : 1 < s := hs
   have hl : 0 ≤ Real.log s := Real.log_nonneg hs.le
   unfold gaussLogIntegrand
-  rw [Real.norm_eq_abs, abs_mul, abs_neg, abs_of_nonneg hl, abs_of_pos (Real.exp_pos _),
-    ← Real.exp_add]
-  rw [show Real.exp (-n + 1) * (Real.log s * Real.exp (-s ^ 2)) =
-    Real.log s * Real.exp (-n + 1 + -s ^ 2) by rw [Real.exp_add]; ring]
-  refine mul_le_mul_of_nonneg_left (Real.exp_le_exp.2 ?_) hl
-  nlinarith
+  rw [Real.norm_eq_abs, abs_mul, abs_neg, abs_of_nonneg hl, abs_of_pos (Real.exp_pos _)]
+  have hns : 0 ≤ (n - 1) * (s ^ 2 - 1) := mul_nonneg (by linarith) (by nlinarith)
+  calc Real.log s * Real.exp (-n * s ^ 2) ≤ Real.log s * Real.exp (-n + 1 + -s ^ 2) :=
+        mul_le_mul_of_nonneg_left (Real.exp_le_exp.2 (by nlinarith)) hl
+    _ = _ := by rw [Real.exp_add, Real.exp_add]; ring
 
 theorem integral_Ioc_gaussLogIntegrand_bound : ∃ C : ℝ, ∀ n : ℝ, 1 ≤ n →
     |(∫ s in Ioc (0 : ℝ) 1, gaussLogIntegrand n s) - gaussLogMain n| ≤ C * Real.exp (-n) := by
