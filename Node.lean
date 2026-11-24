@@ -5,3 +5,4 @@ public import Node.Zeta
 public import Node.Partition
 public import Node.Monodromy
 public import Node.NormalCrossing
+public import Node.FreeEnergyMonomial
