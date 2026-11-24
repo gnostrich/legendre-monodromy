@@ -28,6 +28,11 @@ The node `f(w) = w₁ w₂` on the unit square `[0,1]²` has one distinguished f
   nonzero limit as `z → -λ⁺`, where `λ = minⱼ (hⱼ + 1)/(2kⱼ)` and `m` is the number of
   indices attaining it. The node results above are the case `d = 2`, `k = (1, 1)`, `h = 0`,
   stated on `ℝ × ℝ`.
+* `monomial_partition_asymptotic` and `monomial_free_energy`: for the same monomial models
+  (all `kⱼ > 0`, `hⱼ > -1`), `Z(n) = ∫_{[0,1]^d} exp(-n K) φ ≍ n^{-λ} (log n)^{m-1}` and
+  `F(n) = -log Z(n) = λ log n - (m - 1) log log n + O(1)` as real `n → ∞`: Watanabe's
+  free-energy asymptotic in normal-crossing form (the reduction of a general model to this
+  form by resolution of singularities is not formalized).
 * `node_partition_sharp`: the partition function `Z(n) = ∫ exp(-n K)` satisfies
   `Z(n) = (√π / (4√n)) (log n + γ + 2 log 2) + O(e^{-n})` as `n → ∞` (real `n`).
 * `node_free_energy`: the free energy `F(n) = -log Z(n)` satisfies

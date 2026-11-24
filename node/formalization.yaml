@@ -4,7 +4,7 @@
 version: "v0.4"
 
 project:
-  name: "One node, one density: the density of states of w1 w2 on the unit square; the zeta function, sharp partition function and free energy of the singular learning model K = (w1 w2)^2; and the monomial zeta function with its learning coefficient and multiplicity"
+  name: "One node, one density: the density of states of w1 w2 on the unit square; the zeta function, sharp partition function and free energy of the singular learning model K = (w1 w2)^2; and the zeta function, learning coefficient, multiplicity and free energy of monomial (normal-crossing) models"
   description: >-
     The node f(w) = w1 w2 on the closed unit square [0,1]^2 has one
     distinguished function, P(s) = -log s. This entry proves in Lean 4 and
@@ -13,7 +13,8 @@ project:
     learning model K(w) = (w1 w2)^2 with uniform prior on [0,1]^2 are
     explicit transforms of it; it also states the monodromy of the
     logarithm in Mathlib's covering-space sense, and treats the general
-    monomial (normal-crossing) zeta function. Nine statements are compared.
+    monomial (normal-crossing) zeta function and free energy. Eleven
+    statements are compared.
 
     (1) Density of states: the pushforward of Lebesgue measure on [0,1]^2
     under w -> w1 w2 equals the measure on (0,1] with density -log s. (The
@@ -39,7 +40,16 @@ project:
     after resolution of singularities, where (lambda, m) are the learning
     coefficient and its multiplicity; the resolution step is not
     formalized. (2)-(3) are the case d = 2, k = (1,1), h = 0, stated on
-    R x R and proved separately through (1).
+    R x R and proved separately through (1). (10)-(11) Monomial free energy:
+    for the same models with all k_j > 0 and h_j > -1, the partition
+    function Z(n) = integral over [0,1]^d of exp(-n K) phi satisfies
+    Z(n) = Theta(n^(-lambda) (log n)^(m-1)) as real n -> infinity (upper
+    and lower bounds by constant multiples), so
+    F(n) = -log Z(n) = lambda log n - (m - 1) log log n + O(1). This is
+    Watanabe's free-energy asymptotic for models in normal-crossing form;
+    the node's (7)-(8) are its d = 2 instance, sharpened there to exact
+    constants. The proof is an induction on the dimension, integrating out
+    one coordinate at a time with one-variable Laplace-type estimates.
     (7) Sharp partition function: Z(n) = integral over [0,1]^2 of
     exp(-n (w1 w2)^2) satisfies
     Z(n) = (sqrt(pi)/(4 sqrt(n))) (log n + gamma + 2 log 2) + O(exp(-n)) as
@@ -62,9 +72,10 @@ project:
     constant in (7) comes from Mathlib's value of the derivative of the
     Gamma function at 1/2. Scope: real variables throughout; (1)-(3) and
     (7)-(8) concern one explicit model with uniform prior on the closed unit
-    square, and (4)-(6) monomial models on the closed unit cube; resolution
-    of singularities, the reduction of general models to normal-crossing
-    form, the general free-energy asymptotic, b-functions and
+    square, and (4)-(6), (10)-(11) monomial models on the closed unit cube;
+    resolution of singularities, the reduction of general models to
+    normal-crossing form (hence the free-energy asymptotic for general
+    models), b-functions and
     Picard–Lefschetz theory are not formalized, and (9) is the monodromy of
     the logarithm itself, not of a family of cycles. All results are classical
     or elementary consequences of classical results; we searched the
@@ -94,14 +105,17 @@ sources:
     note: >-
       The entry formalizes the zeta function, learning coefficient and
       multiplicity of monomial (normal-crossing) models on the unit cube,
-      results (4)-(6), which is the form a model takes after resolution of
-      singularities, and one explicit instance in full: the model
+      results (4)-(6), and their free energy
+      lambda log n - (m - 1) log log n + O(1), results (10)-(11); this is the
+      form a model takes after resolution of singularities. It also treats
+      one explicit instance in full: the model
       K(w) = (w1 w2)^2 with uniform prior on [0,1]^2, for which lambda = 1/2
       and m = 2 (results (2), (3), (7), (8), with the asymptotics of Z(n) and
       F(n) sharpened to exact constants). The general theorems of the book
       (existence of the learning coefficient for analytic models, resolution
-      of singularities, the general asymptotic expansion of the free energy)
-      are not formalized.
+      of singularities, the reduction of a general model to normal-crossing
+      form, the stochastic free energy of a random sample) are not
+      formalized.
   - title: "Singularities of Differentiable Maps, Volume II: Monodromy and Asymptotics of Integrals"
     authors:
       - "V. I. Arnold"
@@ -203,7 +217,7 @@ related_formalizations:
 
 status:
   scope: >-
-    Formalized: exactly the nine statements listed in comparator-node.json
+    Formalized: exactly the eleven statements listed in comparator-node.json
     and stated in ChallengeNode.lean, with sorry-free proofs in Node/. All
     are unconditional. The node results concern one explicit model on the
     closed unit square with uniform prior and real variables; the monomial
@@ -213,8 +227,9 @@ status:
 
     Not claimed. No singular learning theory beyond the monomial case: no
     resolution of singularities, no reduction of general models to
-    normal-crossing form, no general free-energy asymptotic (only the node's),
-    and no b-functions, no Picard–Lefschetz theory and no
+    normal-crossing form (so the free-energy asymptotic is proved for monomial
+    models only), no random-sample (stochastic) free energy, and no
+    b-functions, no Picard–Lefschetz theory and no
     meromorphic continuation of zeta; the Kan-extension and b-function
     framing in the description is not formalized. The results are classical
     or elementary; priority among Lean formalizations is unknown. Proof
@@ -222,7 +237,7 @@ status:
 
     Sorry and native_decide. The development is sorry-free and
     native_decide-free, and the compared theorems depend only on propext,
-    Classical.choice and Quot.sound. ChallengeNode.lean's own nine deliberate
+    Classical.choice and Quot.sound. ChallengeNode.lean's own eleven deliberate
     sorries are the comparator placeholders and are not counted.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -258,6 +273,16 @@ status:
       sorry_count: 0
       axioms: ["propext", "Quot.sound", "Classical.choice"]
       comparator_config: "comparator-node.json"
+    - declaration: "Node.monomial_partition_asymptotic"
+      file: "Node/FreeEnergyMonomial.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.monomial_free_energy"
+      file: "Node/FreeEnergyMonomial.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
     - declaration: "Node.node_partition_sharp"
       file: "Node/Partition.lean"
       sorry_count: 0
@@ -284,7 +309,8 @@ automation:
         statements and wrote ChallengeNode.lean, SolutionNode.lean,
         comparator-node.json and this file. Parallel Claude agents, one per
         result group (density of states, zeta, partition function and free
-        energy, monodromy, the monomial zeta function), wrote the proofs in Node/ by iterating against
+        energy, monodromy, the monomial zeta function, the monomial free
+        energy), wrote the proofs in Node/ by iterating against
         the Lean compiler on the pinned toolchain. The closed forms and
         asymptotics were checked numerically (mpmath, 30 digits) first.
       cost:
@@ -326,11 +352,14 @@ fidelity:
 
     Against the sources: Watanabe's invariants are defined for general
     models with a prior. For the monomial results the prior density
-    prod w_j^(h_j) is not normalized and h_j > -1 is not assumed (the
-    statements hold without it), lambda is characterized as the minimum of
-    the (h_j + 1)/(2 k_j) by a lower-bound hypothesis plus attainment, and
-    the pole order is expressed by the nonzero one-sided limit of
-    (z + lambda)^m zeta(z). For the node results the model is fixed (K = (w1 w2)^2, uniform
+    prod w_j^(h_j) is not normalized; h_j > -1 is assumed for the
+    free-energy results (10)-(11), where it is needed for Z(n) to be finite,
+    but not for the zeta results (4)-(6), which hold without it. lambda is
+    characterized as the minimum of the (h_j + 1)/(2 k_j) by a lower-bound
+    hypothesis plus attainment; the pole order is expressed by the nonzero
+    one-sided limit of (z + lambda)^m zeta(z); and the free energy is
+    deterministic (the integral Z(n) in a real variable n), with the
+    O(1) and Theta bounds taken as n -> infinity. For the node results the model is fixed (K = (w1 w2)^2, uniform
     prior on the closed unit square, real parameters), zeta is evaluated
     only for real z, and the double pole is read off the closed form for
     z > -1/2, with the integrability threshold z > -1/2 proved separately,
@@ -395,6 +424,16 @@ alignment:
       module: "ChallengeNode"
       status: proved
       note: "With lambda = min_j (h_j+1)/(2 k_j) attained by m >= 1 indices, (z + lambda)^m zeta(z) has a nonzero limit as z -> -lambda from above. Proved as Node.monomial_pole."
+    - source: "Watanabe (2009): asymptotic of the partition function of a model in normal-crossing form"
+      lean: "NodeChallenge.monomial_partition_asymptotic"
+      module: "ChallengeNode"
+      status: proved
+      note: "Z(n) = Theta(n^(-lambda) (log n)^(m-1)) for K = prod w_j^(2 k_j), prior density prod w_j^(h_j) (h_j > -1) on [0,1]^d. Proved as Node.monomial_partition_asymptotic."
+    - source: "Watanabe (2009): free energy lambda log n - (m-1) log log n + O(1), model in normal-crossing form"
+      lean: "NodeChallenge.monomial_free_energy"
+      module: "ChallengeNode"
+      status: proved
+      note: "-log Z(n) - (lambda log n - (m-1) log log n) = O(1). Proved as Node.monomial_free_energy."
     - source: "Watanabe (2009): asymptotic of the partition function, instance K = (w1 w2)^2, sharpened with the exact constant"
       lean: "NodeChallenge.node_partition_sharp"
       module: "ChallengeNode"

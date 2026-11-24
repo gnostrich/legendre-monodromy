@@ -71,10 +71,10 @@ expresses the solution `F(1-λ)`, which is regular at `λ = 1`, in that basis.
 The node `f(w) = w₁w₂` on the unit square `[0,1]²` is the local model of the
 Legendre family's degeneration at `λ = 0`. Its density of states `P(s) = -log s`
 controls the toy singular learning model `K(w) = (w₁w₂)²` with uniform prior.
-The general monomial (normal-crossing) zeta function and its pole order are also
-proved. This is the form every singular-learning-theory computation of a learning
-coefficient reaches after resolution of singularities (the resolution step is not
-formalized). [`ChallengeNode.lean`](ChallengeNode.lean) states nine theorems, proved in
+The general monomial (normal-crossing) case is also proved: the zeta function, its
+pole order (λ, m), and the free energy `λ log n − (m−1) log log n + O(1)`. This is the
+form every singular-learning-theory computation reaches after resolution of
+singularities (the resolution step is not formalized). [`ChallengeNode.lean`](ChallengeNode.lean) states eleven theorems, proved in
 [`Node/`](Node) and selected by `comparator-node.json`. Metadata:
 [`node/formalization.yaml`](node/formalization.yaml).
 
@@ -86,6 +86,8 @@ formalized). [`ChallengeNode.lean`](ChallengeNode.lean) states nine theorems, pr
 | `monomial_zeta_integrable` | For `K = ∏ wⱼ^(2kⱼ)` and prior density `∏ wⱼ^(hⱼ)` on `[0,1]^d`: `K^z φ` is integrable iff every `2kⱼz + hⱼ + 1 > 0` |
 | `monomial_zeta` | Then `∫_{[0,1]^d} K^z φ = ∏ⱼ 1/(2kⱼz + hⱼ + 1)` |
 | `monomial_pole` | With `λ = minⱼ (hⱼ+1)/(2kⱼ)` attained by `m ≥ 1` indices, `(z+λ)^m ζ(z)` has a nonzero limit as `z → -λ⁺`: a pole of order exactly `m` |
+| `monomial_partition_asymptotic` | For the same models (`hⱼ > -1`), `Z(n) = ∫ e^{-nK} φ ≍ n^{-λ} (log n)^{m-1}` |
+| `monomial_free_energy` | `F(n) = -log Z(n) = λ log n - (m-1) log log n + O(1)` |
 | `node_partition_sharp` | `Z(n) = ∫ e^{-nK} = (√π/(4√n))(log n + γ + 2 log 2) + O(e^{-n})` |
 | `node_free_energy` | `-log Z(n) - (½ log n - log log n) → log(4/√π)` |
 | `node_period_monodromy` | For Mathlib's covering map `exp` and the loop `θ ↦ e^{2πiθ}`, `IsCoveringMap.monodromy` sends `0` to `2πi`: `P = -log` continues to `P - 2πi` |
@@ -99,8 +101,8 @@ entry's title.
 
 Not claimed: general singular learning theory beyond the monomial case
 (resolution of singularities, the reduction of a general model to normal-crossing
-form, and the general free-energy asymptotic `λ log n - (m-1) log log n + O(1)`,
-which is proved here only for the node), b-functions, Picard–Lefschetz theory,
+form; the free-energy asymptotic is proved for all monomial models but not for
+general ones), b-functions, Picard–Lefschetz theory,
 meromorphic continuation of zeta, and the categorical framing (Pugh et al.,
 arXiv:2502.13810 and arXiv:2604.15100) mentioned in the metadata as background.
 The results are classical or elementary. We found no prior formalization in the
