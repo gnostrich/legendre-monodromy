@@ -68,6 +68,10 @@ expresses the solution `F(1-λ)`, which is regular at `λ = 1`, in that basis.
 
 ## Second entry: one node, one density (`comparator-node.json`)
 
+Registered in the Palomar registry as
+[PALOMAR-2026-11-24-000014](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-24-000014&version=1)
+(version 1, commit `3da8345`).
+
 The node `f(w) = w₁w₂` on the unit square `[0,1]²` is the local model of the
 Legendre family's degeneration at `λ = 0`. Its density of states `P(s) = -log s`
 controls the toy singular learning model `K(w) = (w₁w₂)²` with uniform prior.
