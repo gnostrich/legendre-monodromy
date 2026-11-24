@@ -1,0 +1,18 @@
+{
+  "challenge_module": "ChallengeNode",
+  "solution_module": "SolutionNode",
+  "theorem_names": [
+    "NodeChallenge.node_density_of_states",
+    "NodeChallenge.node_learning_zeta_integrable",
+    "NodeChallenge.node_learning_zeta",
+    "NodeChallenge.node_partition_sharp",
+    "NodeChallenge.node_free_energy",
+    "NodeChallenge.node_period_monodromy"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

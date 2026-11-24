@@ -1,5 +1,5 @@
 name = "LegendreMonodromy"
-defaultTargets = ["Legendre", "Solution"]
+defaultTargets = ["Legendre", "Solution", "Node", "SolutionNode"]
 
 [[require]]
 name = "mathlib"
@@ -19,3 +19,13 @@ name = "Challenge"
 
 [[lean_lib]]
 name = "Solution"
+
+[[lean_lib]]
+name = "Node"
+globs = ["Node", "Node.+"]
+
+[[lean_lib]]
+name = "ChallengeNode"
+
+[[lean_lib]]
+name = "SolutionNode"

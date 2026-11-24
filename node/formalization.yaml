@@ -1,0 +1,363 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4. Second Palomar entry from this repository (the node w1 w2).
+# Comparator configuration: comparator-node.json.
+version: "v0.4"
+
+project:
+  name: "One node, one density: the density of states of w1 w2 on the unit square, and the zeta function, sharp partition function and free energy of the singular learning model K = (w1 w2)^2"
+  description: >-
+    The node f(w) = w1 w2 on the closed unit square [0,1]^2 has one
+    distinguished function, P(s) = -log s. This entry proves in Lean 4 and
+    Mathlib that P is the density of states of the node, and that the zeta
+    function, partition function and free energy of the toy singular
+    learning model K(w) = (w1 w2)^2 with uniform prior on [0,1]^2 are
+    explicit transforms of it; it also states the monodromy of the
+    logarithm in Mathlib's covering-space sense. Six statements are
+    compared.
+
+    (1) Density of states: the pushforward of Lebesgue measure on [0,1]^2
+    under w -> w1 w2 equals the measure on (0,1] with density -log s. (The
+    function -log s is also the integral over the fibre {w1 w2 = s} of the
+    Gelfand–Leray form dw1/w1; this interpretation is not separately
+    stated.) (2) For real z, the learning zeta function
+    zeta(z) = integral over [0,1]^2 of ((w1 w2)^2)^z is finite (the integrand
+    is integrable) if and only if z > -1/2, and (3) for z > -1/2 it equals
+    1/(2z+1)^2. The closed form has a double pole at -1/2, which in
+    Watanabe's singular learning theory corresponds to learning coefficient
+    1/2 and multiplicity 2; meromorphic continuation is not stated.
+    (4) Sharp partition function: Z(n) = integral over [0,1]^2 of
+    exp(-n (w1 w2)^2) satisfies
+    Z(n) = (sqrt(pi)/(4 sqrt(n))) (log n + gamma + 2 log 2) + O(exp(-n)) as
+    real n -> infinity, where gamma is the Euler–Mascheroni constant.
+    (5) Free energy: F(n) = -log Z(n) satisfies
+    F(n) - (1/2 log n - log log n) -> log(4/sqrt(pi)), the form
+    lambda log n - (m - 1) log log n + O(1) of Watanabe's asymptotics with
+    lambda = 1/2, m = 2, here with the exact constant. (6) Monodromy of the
+    logarithm: for Mathlib's covering map exp from the complex plane to the
+    punctured plane and the loop theta -> exp(2 pi i theta) based at 1,
+    IsCoveringMap.monodromy sends the fibre point 0 to 2 pi i. Lifts through
+    exp are continuations of log, so P = -log continues to P - 2 pi i
+    around s = 0: the unipotent monodromy of the node's period.
+
+    In the Lean development, (2)-(5) are derived from the same transfer
+    lemma, a consequence of (1): an integral over the square of a function
+    of w1 w2 equals the integral over (0,1] of that function against
+    -log s. The zeta function is then the Mellin transform of -log s and
+    the partition function its Gaussian Laplace transform. The exact
+    constant in (4) comes from Mathlib's value of the derivative of the
+    Gamma function at 1/2. Scope: one explicit model, real variables,
+    uniform prior on the closed unit square; none of the general theory of
+    singular learning, resolution of singularities, b-functions or
+    Picard–Lefschetz theory is formalized, and (6) is the monodromy of the
+    logarithm itself, not of a family of cycles. All results are classical
+    or elementary consequences of classical results; we searched the
+    Palomar registry and Mathlib (November 2026) and found no prior
+    formalization of them, but did not search other sources, so priority
+    among Lean formalizations is unknown.
+  authors:
+    - "Rohan Badade"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Rohan Badade"
+
+classification:
+  arxiv: ["math.ST", "math.LO"]
+  msc2020: ["62F15", "14B05", "28A35", "41A60", "68V20"]
+
+sources:
+  - title: "Algebraic Geometry and Statistical Learning Theory"
+    authors:
+      - "Sumio Watanabe"
+    id: "doi:10.1017/CBO9780511800474"
+    type: book
+    location: "Cambridge Monographs on Applied and Computational Mathematics 25, Cambridge University Press, 2009; the zeta function of a singular model, the learning coefficient and its multiplicity, and the asymptotic Z(n) ~ C n^(-lambda) (log n)^(m-1), F = lambda log n - (m-1) log log n + O(1). Equation and theorem numbers were not checked against a copy of the book."
+    relationship: formalizes
+    license: "unknown"
+    author_endorsement: not-contacted
+    note: >-
+      The entry formalizes one explicit instance of these notions: the
+      model K(w) = (w1 w2)^2 with uniform prior on [0,1]^2, for which
+      lambda = 1/2 and m = 2. Results (2)-(5) are this instance, with the
+      zeta function in closed form and the asymptotics of Z(n) and F(n)
+      sharpened to exact constants. The general theorems of the book
+      (existence of the learning coefficient for analytic models, resolution
+      of singularities, the general asymptotic expansion) are not
+      formalized.
+  - title: "Singularities of Differentiable Maps, Volume II: Monodromy and Asymptotics of Integrals"
+    authors:
+      - "V. I. Arnold"
+      - "S. M. Gusein-Zade"
+      - "A. N. Varchenko"
+    type: book
+    location: "Birkhäuser, Monographs in Mathematics 83, 1988: Gelfand–Leray forms, the monodromy of a node, and the link between monodromy and the asymptotics of integrals"
+    relationship: background
+    license: "unknown"
+    author_endorsement: "n/a"
+    note: >-
+      Background for reading -log s as the period of the node's real fibre
+      and for the unipotent monodromy of that period. None of the book's
+      general results is formalized; result (6) is only the monodromy of
+      the logarithm.
+  - title: "B-functions and holonomic systems"
+    authors:
+      - "Masaki Kashiwara"
+    type: paper
+    location: "Inventiones Mathematicae 38 (1976), 33-53"
+    relationship: background
+    license: "unknown"
+    author_endorsement: "n/a"
+    note: >-
+      Framing only, not formalized: with Malgrange's work, the relation
+      between roots of b-functions and monodromy eigenvalues, the general
+      reason the logarithmic terms of singular learning asymptotics track
+      Jordan blocks of monodromy. This entry exhibits one instance (a
+      double pole of zeta and a log log n term alongside a unipotent
+      monodromy) but proves no general statement.
+  - title: "Polynôme de Bernstein-Sato et cohomologie évanescente"
+    authors:
+      - "Bernard Malgrange"
+    type: paper
+    location: "Astérisque 101-102 (1983), 243-267"
+    relationship: background
+    license: "unknown"
+    author_endorsement: "n/a"
+    note: "Framing only, not formalized; see the Kashiwara entry."
+  - title: "Learning Is a Kan Extension"
+    authors:
+      - "Matthew Pugh"
+      - "Jo Grundy"
+      - "Corina Cirstea"
+      - "Nick Harris"
+    id: "arXiv:2502.13810"
+    type: preprint
+    location: "arXiv v1, 19 February 2025"
+    relationship: background
+    license: "unknown"
+    author_endorsement: not-contacted
+    note: >-
+      Framing only, not formalized: presents error-minimising learning as a
+      Kan extension. In that picture the fibre of inference over the data
+      corresponds to the true-parameter set of singular learning theory,
+      here the two axes crossing at the node. Nothing in this entry depends
+      on it.
+  - title: "Presenting Neural Networks via Coherent Functors"
+    authors:
+      - "Matthew Pugh"
+      - "Jo Grundy"
+      - "Corina Cirstea"
+      - "Nick Harris"
+    id: "arXiv:2604.15100"
+    type: preprint
+    location: "arXiv v1, 16 April 2026"
+    relationship: background
+    license: "unknown"
+    author_endorsement: not-contacted
+    note: "Framing only, not formalized; recasts network inference as an extension problem. Nothing in this entry depends on it."
+  - title: "mathlib4: the Lean mathematical library"
+    authors:
+      - "The Mathlib Community"
+    id: "https://github.com/leanprover-community/mathlib4"
+    type: other
+    location: "Mathlib v4.35.0, as pinned by lakefile.toml and lake-manifest.json"
+    relationship: background
+    license: "Apache-2.0"
+    author_endorsement: "n/a"
+    note: >-
+      The ambient library. ChallengeNode.lean imports only Mathlib. Mathlib
+      supplies Lebesgue measure, pushforwards and densities, the Gaussian
+      integral, the Gamma function and its derivative at 1/2, the
+      Euler–Mascheroni constant, and covering maps with their monodromy
+      (including the covering map exp). It is a Lean dependency, not a
+      mathematical source for any compared statement.
+
+related_formalizations:
+  - id: "PALOMAR-2026-11-24-000008"
+    relationship: other
+    note: >-
+      The other registered entry from this repository (the Legendre family:
+      Picard–Fuchs equation, period, solution space, local monodromy and
+      connection formula). Thematic link only: near lambda = 0 the Legendre
+      curve degenerates through the node xy = lambda, and the logarithmic
+      solution there has the same unipotent monodromy. No code, definition
+      or compared statement is shared, and neither entry's compared
+      theorems depend on the other's.
+
+status:
+  scope: >-
+    Formalized: exactly the six statements listed in comparator-node.json
+    and stated in ChallengeNode.lean, with sorry-free proofs in Node/. All
+    are unconditional. Results (1)-(5) concern one explicit model on the
+    closed unit square with uniform prior and real variables; (6) is the
+    monodromy of the complex logarithm in Mathlib's covering-space sense.
+
+    Not claimed. No general singular learning theory (learning coefficients
+    of general models, resolution of singularities, the general asymptotic
+    expansion), no b-functions, no Picard–Lefschetz theory and no
+    meromorphic continuation of zeta; the Kan-extension and b-function
+    framing in the description is not formalized. The results are classical
+    or elementary; priority among Lean formalizations is unknown. Proof
+    terms were not reviewed line by line by a human; see the review block.
+
+    Sorry and native_decide. The development is sorry-free and
+    native_decide-free, and the compared theorems depend only on propext,
+    Classical.choice and Quot.sound. ChallengeNode.lean's own six deliberate
+    sorries are the comparator placeholders and are not counted.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - declaration: "Node.node_density_of_states"
+      file: "Node/Density.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.node_learning_zeta_integrable"
+      file: "Node/Zeta.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.node_learning_zeta"
+      file: "Node/Zeta.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.node_partition_sharp"
+      file: "Node/Partition.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.node_free_energy"
+      file: "Node/Partition.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+    - declaration: "Node.node_period_monodromy"
+      file: "Node/Monodromy.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "comparator-node.json"
+
+automation:
+  methods:
+    - method: agent
+      models: ["Claude (Anthropic)"]
+      framework: "Claude Code"
+      tool_setup: >-
+        From the author's build direction, Claude (Anthropic) fixed the Lean
+        statements and wrote ChallengeNode.lean, SolutionNode.lean,
+        comparator-node.json and this file. Parallel Claude agents, one per
+        result group (density of states, zeta, partition function and free
+        energy, monodromy), wrote the proofs in Node/ by iterating against
+        the Lean compiler on the pinned toolchain. The closed forms and
+        asymptotics were checked numerically (mpmath, 30 digits) first.
+      cost:
+        wall_time: "about two hours"
+        spend_usd: "not tracked"
+        hardware: "cloud container, 4 cores"
+      prompting_notes: >-
+        Work was posed as written targets with fixed signatures, a short
+        mathematical route per agent, and the axiom budget (propext,
+        Quot.sound, Classical.choice only; no sorry, no native_decide).
+    - method: manual
+      models: []
+      framework: "n/a"
+      tool_setup: >-
+        The human author conceived the entry (the node as density of states
+        and as the source of the learning invariants), wrote the build
+        direction, and takes responsibility for all claims.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "not tracked"
+      prompting_notes: "n/a"
+  spend_usd: "not tracked"
+  notes: >-
+    Human conception and build direction; AI-written statements and Lean
+    proofs (Claude). No human has reviewed the proof terms line by line. The
+    trust model is Lean's kernel plus the axiom audit and the comparator
+    check described under review.
+
+fidelity:
+  divergences: >-
+    Between the repository and ChallengeNode.lean, which is what Palomar
+    compares: ChallengeNode.lean imports only Mathlib and contains verbatim
+    copies of the three definitions in Node/Monodromy.lean (basePt,
+    unitLoop, zeroInFibre), in the namespace NodeChallenge instead of Node;
+    every other object (the square, the model K, Z(n), the density) is
+    written inline in the statements. There are no individual statement
+    deviations.
+
+    Against the sources: Watanabe's invariants are defined for general
+    models with a prior; here the model is fixed (K = (w1 w2)^2, uniform
+    prior on the closed unit square, real parameters), zeta is evaluated
+    only for real z, and the double pole is read off the closed form for
+    z > -1/2, with the integrability threshold z > -1/2 proved separately,
+    rather than through meromorphic continuation. Z(n) and F(n) are
+    deterministic integrals in a real variable n, as in the analysis of the
+    normalized partition function; no random sample appears. The monodromy
+    is that of the logarithm, stated through Mathlib's covering map exp;
+    the identification with the period of the node is through P = -log.
+
+review:
+  status: >-
+    self-assessed; automated mechanical checks in this repository's CI
+    (lake build with sorry census; lake comparator from the pinned Lean
+    v4.35.0 toolchain with statement match and replay through Lean's
+    kernel, NanoDa and con-ron); no line-by-line human review of proof
+    terms; no external mathematical peer review
+  reviewers:
+    - "Rohan Badade (self)"
+  notes: >-
+    Checked mechanically: lake build on the pinned toolchain with no sorry
+    warnings and no errors; #print axioms on every compared theorem
+    (propext, Classical.choice, Quot.sound); and the toolchain's lake
+    comparator with comparator-node.json against ChallengeNode.lean,
+    covering statement match, definition identity, the axiom allowlist and
+    kernel replay. These repository checks are distinct from Palomar's own
+    verification. Checked numerically before formalization: the zeta
+    closed form, and the error of the sharp partition-function formula
+    divided by exp(-n) (0.0074, 0.00057 and 0.0000676 at n = 5, 20, 60).
+    Checked by a human: the choice of statements and this file. Not done:
+    line-by-line human reading of proof terms; external mathematical review.
+
+alignment:
+  namespace: "NodeChallenge"
+  statements:
+    - source: "Density of states of the node w1 w2 on [0,1]^2 (Gelfand–Leray period of the fibre; see Arnold–Gusein-Zade–Varchenko)"
+      lean: "NodeChallenge.node_density_of_states"
+      module: "ChallengeNode"
+      status: proved
+      note: "The pushforward of Lebesgue measure on [0,1]^2 under w -> w1 w2 is the measure on (0,1] with density -log s. Proved as Node.node_density_of_states."
+    - source: "Watanabe (2009): domain of the zeta function, instance K = (w1 w2)^2"
+      lean: "NodeChallenge.node_learning_zeta_integrable"
+      module: "ChallengeNode"
+      status: proved
+      note: "((w1 w2)^2)^z is integrable on [0,1]^2 iff z > -1/2 (real z). Proved as Node.node_learning_zeta_integrable."
+    - source: "Watanabe (2009): zeta function of a singular model, instance K = (w1 w2)^2 (lambda = 1/2, m = 2)"
+      lean: "NodeChallenge.node_learning_zeta"
+      module: "ChallengeNode"
+      status: proved
+      note: "For real z > -1/2, the zeta function equals 1/(2z+1)^2. Proved as Node.node_learning_zeta."
+    - source: "Watanabe (2009): asymptotic of the partition function, instance K = (w1 w2)^2, sharpened with the exact constant"
+      lean: "NodeChallenge.node_partition_sharp"
+      module: "ChallengeNode"
+      status: proved
+      note: "Z(n) = (sqrt(pi)/(4 sqrt(n)))(log n + gamma + 2 log 2) + O(exp(-n)). Proved as Node.node_partition_sharp."
+    - source: "Watanabe (2009): free energy F = lambda log n - (m-1) log log n + O(1), instance K = (w1 w2)^2, with the exact constant"
+      lean: "NodeChallenge.node_free_energy"
+      module: "ChallengeNode"
+      status: proved
+      note: "-log Z(n) - (1/2 log n - log log n) -> log(4/sqrt(pi)). Proved as Node.node_free_energy."
+    - source: "Monodromy of the logarithm (unipotent monodromy of the node's period)"
+      lean: "NodeChallenge.node_period_monodromy"
+      module: "ChallengeNode"
+      status: proved
+      note: "IsCoveringMap.monodromy of exp along theta -> exp(2 pi i theta) sends 0 to 2 pi i. Proved as Node.node_period_monodromy."
+
+acknowledgements: >-
+  Mathlib and its community, and the Lean 4 toolchain and the Lean FRO, for
+  the library and kernel this development rests on, in particular Mathlib's
+  covering-map monodromy, Gaussian integral and the derivative of the Gamma
+  function at 1/2. Claude, by Anthropic, wrote the Lean statements and
+  proofs from the author's build direction. The author conceived the entry
+  and takes responsibility for all claims.
